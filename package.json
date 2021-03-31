@@ -1,0 +1,44 @@
+{
+  "name": "@small-tech/vite-plugin-sri",
+  "version": "1.0.0",
+  "description": "A Vite plugin that adds subresource integrity hashes to your index.html at build time.",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/index.js",
+    "coverage": "c8 node test/index.js"
+  },
+  "homepage": "https://github.com/small-tech/vite-plugin-sri#readme",
+  "bugs": {
+    "url": "https://github.com/small-tech/vite-plugin-sri/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/small-tech/vite-plugin-sri.git"
+  },
+  "keywords": [
+    "Vite",
+    "Subresource",
+    "Integrity",
+    "SRI",
+    "plugin"
+  ],
+  "author": {
+    "name": "Aral Balkan",
+    "email": "aral@small-tech.org",
+    "url": "https://ar.al"
+  },
+  "funding": {
+    "type": "foundation",
+    "url": "https://small-tech.org/fund-us/"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "c8": "^7.7.0",
+    "tape": "^5.2.2"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.5",
+    "node-fetch": "^2.6.1"
+  }
+}
