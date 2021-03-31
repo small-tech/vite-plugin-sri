@@ -2,7 +2,7 @@
 
 [Subresource integrity](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity) (SRI) plugin for [Vite](https://vitejs.dev/).
 
-Adds subresource integrity hashes to script and stylesheet imports from your _index.html_ at build time.
+Adds subresource integrity hashes to script and stylesheet imports from your _index.html_ file at build time.
 
 ## Install
 

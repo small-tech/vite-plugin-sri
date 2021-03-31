@@ -1,7 +1,7 @@
 {
   "name": "@small-tech/vite-plugin-sri",
   "version": "1.0.0",
-  "description": "A Vite plugin that adds subresource integrity hashes to your index.html at build time.",
+  "description": "A Vite plugin that adds subresource integrity hashes to your index.html file at build time.",
   "type": "module",
   "main": "index.js",
   "scripts": {

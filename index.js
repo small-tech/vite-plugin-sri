@@ -5,7 +5,7 @@
 // Subresource integrity (SRI) plugin for Vite (https://vitejs.dev/)
 //
 // Adds subresource integrity hashes to script and stylesheet
-// imports from your index.html at build time.
+// imports from your index.html file at build time.
 //
 // If you’re looking for a generic Rollup plugin that does the same thing,
 // see rollup-plugin-sri by Jonas Kruckenberg that this one was inspired by:
