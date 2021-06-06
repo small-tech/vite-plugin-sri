@@ -3,8 +3,13 @@
   "version": "1.0.1",
   "description": "A Vite plugin that adds subresource integrity hashes to your index.html file at build time.",
   "type": "module",
-  "main": "index.js",
+  "main": "index.cjs",
+  "exports": {
+    "import": "./index.js",
+    "require": "./index.cjs"
+  },
   "scripts": {
+    "build": "rollup -c",
     "test": "node test/index.js",
     "coverage": "c8 node test/index.js"
   },
@@ -16,7 +21,7 @@
     "type": "git",
     "url": "git+https://github.com/small-tech/vite-plugin-sri.git"
   },
-  "files": [],
+  "files": ["index.js"],
   "keywords": [
     "Vite",
     "Subresource",
@@ -36,6 +41,7 @@
   "license": "ISC",
   "devDependencies": {
     "c8": "^7.7.0",
+    "rollup": "^2.51.0",
     "tape": "^5.2.2"
   },
   "dependencies": {
