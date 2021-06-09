@@ -23,27 +23,48 @@ import { createHash } from 'crypto'
 import cheerio from 'cheerio'
 import fetch from 'node-fetch'
 
-export default function sri () {
+export default function sri() {
+  let config
+
   return {
     name: 'vite-plugin-sri',
     enforce: 'post',
     apply: 'build',
 
+    configResolved(resolvedConfig) {
+      config = resolvedConfig
+    },
+
     async transformIndexHtml(html, context) {
       const bundle = context.bundle
 
-      const calculateIntegrityHashes = async (element) => {
-        let source
-        let attributeName = element.attribs.src ? 'src' : 'href'
-        const resourcePath = element.attribs[attributeName]
-        if (resourcePath.startsWith('http')) {
-          // Load remote source from URL.
-          source = await (await fetch(resourcePath)).buffer()
-        } else {
+      const getResource = async(path) => {
+        const { base } = config
+        const pathWithoutBase = base.length && path.startsWith(base) ? path.slice(base.length) : path
+
+        if (pathWithoutBase in bundle) {
           // Load local source from bundle.
-          const resourcePathWithoutLeadingSlash = element.attribs[attributeName].slice(1)
-          const bundleItem = bundle[resourcePathWithoutLeadingSlash]
-          source = bundleItem.code || bundleItem.source
+          const bundleItem = bundle[pathWithoutBase]
+          return bundleItem.code ?? bundleItem.source
+        } else if (path.startsWith('http://') || path.startsWith('https://')) {
+          // Load remote source from URL.
+          const resp = await fetch(path)
+          if (!resp.ok) {
+            throw new Error(`Could not resolve resource '${path}': http ${resp.status} ${resp.statusText}`)
+          }
+          return await resp.text()
+        } else {
+          return null
+        }
+      }
+
+      const calculateIntegrityHashes = async (element) => {
+        const attributeName = element.attribs.src ? 'src' : 'href'
+        const resourcePath = element.attribs[attributeName]
+        const source = await getResource(resourcePath)
+        if (source === null) {
+          console.warn(`Could not resolve resource '${resourcePath}'`)
+          return;
         }
         element.attribs.integrity = `sha384-${createHash('sha384').update(source).digest().toString('base64')}`
       }
@@ -51,7 +72,7 @@ export default function sri () {
       const $ = cheerio.load(html)
       $.prototype.asyncForEach = async function (callback) {
         for (let index = 0; index < this.length; index++) {
-          await callback(this[index], index, this);
+          await callback(this[index], index, this)
         }
       }
 
