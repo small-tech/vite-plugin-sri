@@ -34,6 +34,12 @@ npx vite build
 
 Run `npm test` to test, `npm run coverage` to run coverage.
 
+## Build
+
+Run `npm run build`
+
+This will generate legacy CommonJS version of the module for compatibility with older Node projects.
+
 ## See also
 
 If you’re looking for a generic Rollup plugin that does the same thing, see [rollup-plugin-sri](https://github.com/JonasKruckenberg/rollup-plugin-sri) by [Jonas Kruckenberg](https://github.com/JonasKruckenberg) that this one was inspired by.
