@@ -23,6 +23,18 @@ export default defineConfig({
   plugins: [sri()]
 })
 ```
+If your importing file is not an ESM file, you need to import dynamically 
+
+```js
+import { defineConfig } from 'vite'
+
+export default defineConfig(async ({ command, mode }) => {
+  const sri = await import('@small-tech/vite-plugin-sri')
+  return {
+	  plugins: [sri.default()]
+  }
+})
+```
 
 Then:
 
