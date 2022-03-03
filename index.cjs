@@ -26,7 +26,7 @@ const fetch = require('node-fetch');
 
 ////////////////////////////////////////////////////////////////////////////////
 
-function sri () {
+function sri ({skipExternal = false} = {}) {
   return {
     name: 'vite-plugin-sri',
     enforce: 'post',
@@ -59,8 +59,14 @@ function sri () {
       };
 
       // Implement SRI for scripts and stylesheets.
-      const scripts = $('script').filter('[src]');
-      const stylesheets = $('link[rel=stylesheet]').filter('[href]');
+      let scripts, stylesheets;
+      if(skipExternal) {
+        scripts = $('script[src]').filter(':not([src^="http"])');
+        stylesheets = $('link[rel=stylesheet]').filter(':not([href^="http"])');
+      } else {
+        scripts = $('script[src]');
+        stylesheets = $('link[rel=stylesheet]').filter('[href]');
+      }
 
       await scripts.asyncForEach(calculateIntegrityHashes);
       await stylesheets.asyncForEach(calculateIntegrityHashes);
