@@ -30,6 +30,18 @@ Then:
 npx vite build
 ```
 
+If you want to skip external resourcecs (eg. when loading libs like Google Pay or other external scripts):
+```js
+import { defineConfig } from 'vite'
+import sri from '@small-tech/vite-plugin-sri'
+
+export default defineConfig({
+  // …
+  plugins: [sri({ skipExternal: true })]
+})
+```
+With this configuration sri-Plugin skips every element that url starts with "http"
+
 ## Test and coverage
 
 Run `npm test` to test, `npm run coverage` to run coverage.
