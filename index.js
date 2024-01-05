@@ -24,10 +24,15 @@ import cheerio from 'cheerio'
 import fetch from 'node-fetch'
 
 export default function sri () {
+  let base = "/"
   return {
     name: 'vite-plugin-sri',
     enforce: 'post',
     apply: 'build',
+
+    async configResolved(config) {
+      base = config.base === "" ? "./" : config.base;
+    },
 
     async transformIndexHtml(html, context) {
       const bundle = context.bundle
@@ -41,7 +46,7 @@ export default function sri () {
           source = await (await fetch(resourcePath)).buffer()
         } else {
           // Load local source from bundle.
-          const resourcePathWithoutLeadingSlash = element.attribs[attributeName].slice(1)
+          const resourcePathWithoutLeadingSlash = resourcePath.slice(base.length)
           const bundleItem = bundle[resourcePathWithoutLeadingSlash]
           source = bundleItem.code || bundleItem.source
         }
